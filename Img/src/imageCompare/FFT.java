@@ -42,35 +42,27 @@ public class FFT {
 	}
 	*/
 	public static double calculateCosineAngle(double[] mags1, double[] mags2){
-		double[] innerProducts = new double[mags1.length];
-		double[] cosineAngles = new double[mags1.length];
-		// calculate inner products for the 2 vectors
+		// calculate inner product for the 2 vectors
+		double innerProduct = 0;
 		for (int i = 0; i< mags1.length; i++){
-			innerProducts[i] = (mags1[i]*mags2[i]);
+			innerProduct += (mags1[i]*mags2[i]);
 		}
 		double total1= 0;
 		// square each of the values
 		for (int i = 0; i<mags1.length;i++){
-			total1=+(mags1[i]*mags1[i]);
+			total1 += (mags1[i]*mags1[i]);
 		}
 		double total2= 0;
 		for (int i = 0; i<mags1.length;i++){
-			total2=+(mags1[i]*mags1[i]);
+			total2 += (mags2[i]*mags2[i]);
 		}
 		//find the square root, which is the magnitude
 		double magnitude1 = Math.sqrt(total1);
 		double magnitude2 = Math.sqrt(total2);
-		
-		double sum = 0;
-		// loop through and divide each inner product by the magnitudes
-		for (int i = 0; i<cosineAngles.length;i++){
-			cosineAngles[i] = innerProducts[i]/(magnitude1*magnitude2);
-			//total up the cosine angles for the two vectors
-			sum+=cosineAngles[i];
-		}
-		// return the average
-		System.out.println(sum/cosineAngles.length);
-		return sum/cosineAngles.length;
+		//find the cosine angle
+		double cosineAngle = innerProduct/(magnitude1*magnitude2);
+		System.out.println(cosineAngle);
+		return cosineAngle;
 	}
 	
 	
