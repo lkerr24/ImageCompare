@@ -79,8 +79,10 @@ public class GreyTest extends JFrame{
 		BufferedImage greyImage2 = Grayscale.makeGrey(filename2);
 		BufferedImage[][] imgs2 = DivideIntoBlocks.divide(greyImage2);
 		
-		double[] mags1 = FFT.computeMagnitude(imgs1);
-		double[] mags2 = FFT.computeMagnitude(imgs2);
+		DivideIntoBlocks.something(imgs2);
+		
+		//double[] mags1 = FFT.computeMagnitude(imgs1);
+		//double[] mags2 = FFT.computeMagnitude(imgs2);
 		
 		if (mags1.length>mags2.length){
 			double[] mags1copy = new double[mags2.length];

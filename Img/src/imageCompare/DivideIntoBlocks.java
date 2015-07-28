@@ -10,12 +10,16 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+import com.pearsoneduc.ip.io.*;
 import com.pearsoneduc.ip.io.ImageDecoder;
 import com.pearsoneduc.ip.io.ImageDecoderException;
 import com.pearsoneduc.ip.io.ImageFile;
+import com.pearsoneduc.ip.op.FFTException;
+import com.pearsoneduc.ip.op.*;
+import com.pearsoneduc.ip.op.ImageFFT;
 
 public class DivideIntoBlocks extends JFrame{
+	
 	static int width;
 	static int height;
 	static int rows;
@@ -48,6 +52,24 @@ public class DivideIntoBlocks extends JFrame{
 	        System.out.println("Splitting done"); 
 	        return imgs;
 	    }
+	public static double[] VectorConversion(BufferedImage chunk) throws FFTException{
+		ImageFFT fft = new ImageFFT(chunk);
+		double[] vector = new double[64];
+		int i = 0;
+		for (int row = 0; row< chunk.getHeight(); row++){
+			for (int col = 0; col< chunk.getWidth(); col++){
+				vector[i] = fft.getMagnitude(row,col);
+				i++;
+			}
+		}
+		return vector;
+	}
+	public static void Array2DChunkToVector(BufferedImage[][] imgs){
+		for (int row = 0; row< imgs.length; row++){
+			for (int col = 0; col< imgs[0].length; col++){
+				VectorConversion(imgs[row][col]);
+			}
+	}
 	
-	} 
+} 
 
