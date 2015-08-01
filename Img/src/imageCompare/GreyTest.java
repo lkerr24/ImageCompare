@@ -68,9 +68,6 @@ public class GreyTest extends JFrame{
 		frameForMinis.pack();
 		frameForMinis.setVisible(true);
 		*/	
-		
-		
-		
 		String filename1 = "lena.jpg";
 		BufferedImage greyImage1 = Grayscale.makeGrey(filename1);
 		BufferedImage[][] imgs1 = DivideIntoBlocks.divide(greyImage1);
@@ -79,10 +76,11 @@ public class GreyTest extends JFrame{
 		BufferedImage greyImage2 = Grayscale.makeGrey(filename2);
 		BufferedImage[][] imgs2 = DivideIntoBlocks.divide(greyImage2);
 		
-		DivideIntoBlocks.something(imgs2);
-		
-		//double[] mags1 = FFT.computeMagnitude(imgs1);
-		//double[] mags2 = FFT.computeMagnitude(imgs2);
+		double aveCosineAngle = DivideIntoBlocks.aveCosAngle(imgs1, imgs2);
+		System.out.println(aveCosineAngle);
+		/*
+		double[] mags1 = FFT.computeMagnitude(imgs1);
+		double[] mags2 = FFT.computeMagnitude(imgs2);
 		
 		if (mags1.length>mags2.length){
 			double[] mags1copy = new double[mags2.length];

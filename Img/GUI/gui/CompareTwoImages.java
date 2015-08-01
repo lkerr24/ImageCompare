@@ -104,7 +104,6 @@ public class CompareTwoImages {
 						e.printStackTrace();
 					}
 					
-					
 					String filename2 = uploadImageEditorPane.getText();
 					//BufferedImage greyImage2 = Grayscale.makeGrey(filename2);
 					//BufferedImage[][] imgs2 = DivideIntoBlocks.divide(greyImage2);
