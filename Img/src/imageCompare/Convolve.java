@@ -44,9 +44,7 @@ public class Convolve {
 			}
 			//System.out.println();
 		}
-		
-		
-		//  
+		  
 		float[] kernelCoeff = gKernel.getKernelData(null);
 		//for (int i = 0; i<kernelCoeff.length;i++){
 		//	System.out.printf("\n%.4f",kernelCoeff[i]);
@@ -76,10 +74,10 @@ public class Convolve {
 						}
 				}
 				greyPixels[y][x]=(int) sum;
-				System.out.printf("\t%d",greyPixels[y][x]);
+				//System.out.printf("\t%d",greyPixels[y][x]);
 				sum=0;
 			}
-			System.out.println();
+			//System.out.println();
 		}
 		BufferedImage imageBlur = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_GRAY);
 		WritableRaster imageWritableRaster = imageBlur.getRaster();
@@ -90,27 +88,10 @@ public class Convolve {
 			}
 		}
 		JFrame frameForBlur = new JFrame();
-		//frameForBlur.setLayout(new GridLayout(imageBlur.getWidth(), imageBlur.getHeight()));
 		JLabel view = new JLabel(new ImageIcon(imageBlur));
 		frameForBlur.add(view);
 		frameForBlur.pack();
 		frameForBlur.setVisible(true);
-		//File output = new File("C:\\Users\\laura\\Desktop\\blur.jpg");
-		//ImageIO.write(imageBlur, "jpg", output);
 
-		/* PSEUDO CODE FOR CONVOLUTION AT A SINGLE PIXEL
-		 * Create an array h, indexed from 0 to m-1 horizontally and 0 to n-1 vertically
-		 * Fill h with kernel coefficients
-		 * m2 = [m/2]
-		 * n2 = [n/2]
-		 * sum = 0
-		 * for k = -n2 to n2 do
-		 * 	for j = -m2 to m2 do
-		 * 		sum = sum+h(j +m2, k+n2)f(x-j,y-k)
-		 * 	end for
-		 * end for
-		 * g(x,y) = sum
-		 *  
-		 */
 	}
 }
