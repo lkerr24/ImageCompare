@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JEditorPane;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 import com.pearsoneduc.ip.io.ImageDecoderException;
 import com.pearsoneduc.ip.op.FFTException;
@@ -27,6 +28,7 @@ import java.io.IOException;
 public class CompareTwoImages {
 
 	private JFrame frame;
+	private JButton openButton;
 
 	/**
 	 * Launch the application.
@@ -58,6 +60,11 @@ public class CompareTwoImages {
 		frame.setBounds(100, 100, 367, 298);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		openButton = new JButton("Open a file...");
+		
+		JFileChooser uploadImage = new JFileChooser();
+		int returnVal = uploadImage.showOpenDialog();
 		
 		JFormattedTextField savedImageFTF = new JFormattedTextField();
 		// This may not be necessary if there is a way of gathering data from this pane when the scan button is pressed

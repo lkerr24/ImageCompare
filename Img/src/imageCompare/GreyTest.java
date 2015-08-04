@@ -78,6 +78,8 @@ public class GreyTest extends JFrame{
 		
 		double aveCosineAngle = DivideIntoBlocks.aveCosAngle(imgs1, imgs2);
 		System.out.println(aveCosineAngle);
+		
+	
 		/*
 		double[] mags1 = FFT.computeMagnitude(imgs1);
 		double[] mags2 = FFT.computeMagnitude(imgs2);
@@ -109,7 +111,6 @@ public class GreyTest extends JFrame{
 			FFT.computeCosineAngle(mags1,mags2,mags1.length, mags1[0].length);
 		}
 		*/
-		
 		
 	}
 }

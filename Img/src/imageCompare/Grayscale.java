@@ -53,14 +53,6 @@ public class Grayscale extends JFrame {
 				imageWritableRaster.setPixel(j,i,colours);;
 			}
 		}
-		// could this next block for displaying go in a different method?
-		//JLabel view = new JLabel(new ImageIcon(imageGrey));
-		//getContentPane().add(view);
-		//addWindowListener(new WindowAdapter() {
-			//public void windowClosing(WindowEvent event) {
-				//System.exit(0);
-			//}
-		//});
 		File output = new File("grayscale.jpg");
 		ImageIO.write(image, "jpg", output);
 		return imageGrey;
