@@ -26,13 +26,15 @@ public class Convolve {
 	public static void main(String[] args) throws IOException, ImageDecoderException {
 		GaussianKernel gKernel = new GaussianKernel(1.0f);
 		//gKernel.write(new OutputStreamWriter(System.out));
-		String filename = "lena.jpg";
+		String filename = "IMG_0062.jpg";
 		BufferedImage image = Grayscale.makeGrey(filename);
 		//create a 2d array of grey levels - each pxiel
-		int[][] greyPixels = new int[image.getWidth()][image.getHeight()];
+		int imageWidth = image.getWidth();
+		int imageHeight = image.getHeight();
+		int[][] greyPixels = new int[imageWidth][imageHeight];
 		//get the grey level for each pixel and add it to the array
-		for (int x=0; x<image.getWidth();x++){
-			for (int y=0; y<image.getHeight();y++){
+		for (int x=0; x<imageWidth;x++){
+			for (int y=0; y<imageHeight;y++){
 				Color c = new Color(image.getRGB(x, y));
 				int red = c.getRed();
 				int green = c.getGreen();
@@ -43,30 +45,31 @@ public class Convolve {
 			//System.out.println();
 		}
 		
+		
 		//  
 		float[] kernelCoeff = gKernel.getKernelData(null);
 		//for (int i = 0; i<kernelCoeff.length;i++){
 		//	System.out.printf("\n%.4f",kernelCoeff[i]);
 		//}
-		int width = gKernel.getWidth();
-		int height = gKernel.getHeight();
-		float[][] kernel2d = new float[width][height];
+		int kernelWidth = gKernel.getWidth();
+		int kernelHeight = gKernel.getHeight();
+		float[][] kernel2d = new float[kernelWidth][kernelHeight];
 		int p = 0;
-		for (int i = 0; i<width; i++){
-			for (int j = 0; j< height;j++){
+		for (int i = 0; i<kernelWidth; i++){
+			for (int j = 0; j< kernelHeight; j++){
 				kernel2d[i][j] = kernelCoeff[p];
 				p++;
 				//System.out.printf("\t%.4f",kernel2d[i][j]);
 			}
 			//System.out.println();
 		}
-		int m2 = width/2;
-		int n2 = height/2;
+		int m2 = kernelWidth/2;
+		int n2 = kernelHeight/2;
 		float sum = 0;
-		for (int y=m2; y<greyPixels.length-m2-1; y++){
-			for (int x=n2; x<greyPixels[0].length-n2-1;x++){
+		for (int y=m2; y<(imageWidth-m2-1); y++){
+			for (int x=n2; x<(imageHeight-n2-1); x++){
 				for (int k=-m2; k<=m2; k++){
-					for (int j=-n2; j<=n2;j++){
+					for (int j=-n2; j<=n2; j++){
 						sum+=kernel2d[j+n2][k+m2]*greyPixels[x-j][y-k];
 						}
 				}
@@ -76,10 +79,10 @@ public class Convolve {
 			}
 			System.out.println();
 		}
-		BufferedImage imageBlur = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+		BufferedImage imageBlur = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_GRAY);
 		WritableRaster imageWritableRaster = imageBlur.getRaster();
-		for (int x = 0; x<greyPixels.length;x++){
-			for (int y =0; y<greyPixels[0].length;y++){
+		for (int x = 0; x<imageWidth; x++){
+			for (int y =0; y<imageHeight; y++){
 				int[] colors = {greyPixels[x][y], greyPixels[x][y], greyPixels[x][y]};
 				imageWritableRaster.setPixel(x,y,colors);
 			}
@@ -108,5 +111,4 @@ public class Convolve {
 		 *  
 		 */
 	}
-
 }
