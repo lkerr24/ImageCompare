@@ -71,23 +71,6 @@ public class FFT {
 		return cosineAngle;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/*
 	public static void computeCosineAngle(float[][] mags1, float[][] mags2, int width, int height){
 		int m = 0;

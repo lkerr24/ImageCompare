@@ -67,16 +67,16 @@ public class Convolve {
 		int n2 = kernelHeight / 2;
 		//System.out.println(n2);
 		float sum = 0;
-		for (int y = m2; y < (imageWidth - m2 - 1); y++) {
-			for (int x = n2; x < (imageHeight - n2 - 1); x++) {
+		for (int x = m2; x < (imageWidth - m2 - 1); x++) {
+			for (int y = n2; y < (imageHeight - n2 - 1); y++) {
 				for (int k = -m2; k <= m2; k++) {
 					for (int j = -n2; j <= n2; j++) {
 						sum += kernel2d[j + n2][k + m2]
-								* greyPixels[y - j][x - k];
+								* greyPixels[x - j][y - k];
 					}
 				}
-				greyPixels[y][x] = (int) sum;
-				// System.out.printf("\t%d",greyPixels[y][x]);
+				greyPixels[x][y] = (int) sum;
+				// System.out.printf("\t%d",greyPixels[x][y]);
 				sum = 0;
 			}
 			// System.out.println();
@@ -91,29 +91,9 @@ public class Convolve {
 				imageWritableRaster.setPixel(x, y, colors);
 			}
 		}
-
 		return imageBlur;
 	}
-
-	public static void main(String[] args) throws IOException,
-			ImageDecoderException {
-		BufferedImage image1 = Grayscale.makeGrey("lena.jpg");
-		BufferedImage image2 = Grayscale.makeGrey("lena.jpg");
-		BufferedImage blur1 = convolve(getGreyLevels(image1), 1.0f);
-		BufferedImage blur2 = convolve(getGreyLevels(image2), 2.0f);
-
-		JFrame frameForBlur1 = new JFrame();
-		JLabel view1 = new JLabel(new ImageIcon(blur1));
-		frameForBlur1.add(view1);
-		frameForBlur1.pack();
-		frameForBlur1.setVisible(true);
-		
-		JFrame frameForBlur2 = new JFrame();
-		JLabel view2 = new JLabel(new ImageIcon(blur2));
-		frameForBlur2.add(view2);
-		frameForBlur2.pack();
-		frameForBlur2.setVisible(true);
-		
+	public static int[][] compare(BufferedImage blur1, BufferedImage blur2){
 		int[][] greyLevels1 = getGreyLevels(blur1);
 		int[][] greyLevels2 = getGreyLevels(blur2);
 		
@@ -127,5 +107,28 @@ public class Convolve {
 			}
 			System.out.println();
 		}	
+		return difference;
+	}
+
+	public static void main(String[] args) throws IOException,
+			ImageDecoderException {
+		BufferedImage image1 = Grayscale.makeGrey("IMG_0062.jpg");
+		BufferedImage image2 = Grayscale.makeGrey("IMG_0062.jpg");
+		BufferedImage blur1 = convolve(getGreyLevels(image1), 1.0f);
+		BufferedImage blur2 = convolve(getGreyLevels(image2), 2.0f);
+		
+		compare(blur1, blur2);
+
+		JFrame frameForBlur1 = new JFrame();
+		JLabel view1 = new JLabel(new ImageIcon(blur1));
+		frameForBlur1.add(view1);
+		frameForBlur1.pack();
+		frameForBlur1.setVisible(true);
+		
+		JFrame frameForBlur2 = new JFrame();
+		JLabel view2 = new JLabel(new ImageIcon(blur2));
+		frameForBlur2.add(view2);
+		frameForBlur2.pack();
+		frameForBlur2.setVisible(true);	
 	}
 }
