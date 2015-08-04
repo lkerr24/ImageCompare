@@ -26,7 +26,7 @@ public class Convolve {
 	public static void main(String[] args) throws IOException, ImageDecoderException {
 		GaussianKernel gKernel = new GaussianKernel(1.0f);
 		//gKernel.write(new OutputStreamWriter(System.out));
-		String filename = "IMG_0062.jpg";
+		String filename = "lena.jpg";
 		BufferedImage image = Grayscale.makeGrey(filename);
 		//create a 2d array of grey levels - each pxiel
 		int imageWidth = image.getWidth();
@@ -64,17 +64,19 @@ public class Convolve {
 			//System.out.println();
 		}
 		int m2 = kernelWidth/2;
+		System.out.println(m2);
 		int n2 = kernelHeight/2;
+		System.out.println(n2);
 		float sum = 0;
 		for (int y=m2; y<(imageWidth-m2-1); y++){
 			for (int x=n2; x<(imageHeight-n2-1); x++){
 				for (int k=-m2; k<=m2; k++){
 					for (int j=-n2; j<=n2; j++){
-						sum+=kernel2d[j+n2][k+m2]*greyPixels[x-j][y-k];
+						sum+=kernel2d[j+n2][k+m2]*greyPixels[y-j][x-k];
 						}
 				}
-				greyPixels[x][y]=(int) sum;
-				System.out.printf("\t%d",greyPixels[x][y]);
+				greyPixels[y][x]=(int) sum;
+				System.out.printf("\t%d",greyPixels[y][x]);
 				sum=0;
 			}
 			System.out.println();
