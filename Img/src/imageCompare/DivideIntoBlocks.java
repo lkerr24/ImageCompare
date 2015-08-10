@@ -3,58 +3,67 @@ package imageCompare;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
-import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-
 import com.pearsoneduc.ip.io.ImageDecoderException;
 import com.pearsoneduc.ip.op.FFTException;
 import com.pearsoneduc.ip.op.ImageFFT;
 
 public class DivideIntoBlocks extends JFrame{
-	
-	static int width;
-	static int height;
-	static int rows;
-	static int cols;
  	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
  	 * 	 
- 	 * @param greyImage
- 	 * @return
+ 	 * @param BufferedImage greyImage: Image to be divided into blocks
+ 	 * @param int widthPixels: width of each block after division
+ 	 * @param int heightPixels: height of each block after division
+ 	 * @return BufferedImage[][]: blocks of size widthPixels*heightPixels
  	 * @throws IOException
  	 * @throws ImageDecoderException
  	 */
-	public static BufferedImage[][] divide(BufferedImage greyImage) throws IOException,
+	public BufferedImage[][] divide(BufferedImage greyImage, int widthPixels, int heightPixels) throws IOException,
 	ImageDecoderException{
 		 Raster rasterImage = greyImage.getData();
-		 width = rasterImage.getWidth();
-		 height = rasterImage.getHeight();
-		 rows = height/8;
-		 cols = width/8;
-		 int chunkWidth = 8; // determines the chunk width and height  
-	     int chunkHeight = 8; 
+		 int width = rasterImage.getWidth();
+		 int height = rasterImage.getHeight();
+		 int rows = height/heightPixels;
+		 int cols = width/widthPixels;
 		 BufferedImage imgs[][] = new BufferedImage[rows][cols];
 		 for (int x = 0; x < rows; x++) {  
 	            for (int y = 0; y < cols; y++) {  
 	                //Initialize the image array with image chunks  
-	                imgs[x][y] = new BufferedImage(chunkWidth, chunkHeight,
+	                imgs[x][y] = new BufferedImage(widthPixels, heightPixels,
 	                		greyImage.getType());  
 	                // draws the image chunk  
 	                Graphics2D gr = imgs[x][y].createGraphics();  
-	                gr.drawImage(greyImage, 0, 0, chunkWidth, chunkHeight,
-	                		chunkWidth * y, chunkHeight * x, 
-	                		chunkWidth * y + chunkWidth,
-	                		chunkHeight * x + chunkHeight, null);  
+	                gr.drawImage(greyImage, 0, 0, widthPixels, heightPixels,
+	                		widthPixels * y, heightPixels * x, 
+	                		widthPixels * y + widthPixels,
+	                		heightPixels * x + heightPixels, null);  
 	                gr.dispose();  
 	            }  
-	        }  
-	        System.out.println("Splitting done"); 
+	        } 
+		 	// trace statement
+	        //System.out.println("Splitting done"); 
 	        return imgs;
 	    }
+	public double[] vectorConversion(BufferedImage chunk, int size) throws FFTException{
+		ImageFFT fft = new ImageFFT(chunk);
+		fft.transform();
+		double[] vector = new double[size];
+		int m = 0;
+		for (int row = 0; row< chunk.getHeight(); row++){
+			for (int col = 0; col< chunk.getWidth(); col++){
+				vector[m] = fft.getMagnitude(row,col);
+				m++;
+			}
+		}
+		return vector;
+	}
+	
 	/**
 	 * Takes in 2 corresponding chunks of images and calculates the cosine angle between them
 	 * @param chunk1
@@ -63,21 +72,8 @@ public class DivideIntoBlocks extends JFrame{
 	 * @throws FFTException
 	 */
 	//for every pair of corresponding blocks... for loop looping through each pair
-	public static double VectorConversion(BufferedImage chunk1, BufferedImage chunk2) throws FFTException{
-		ImageFFT fft1 = new ImageFFT(chunk1);
-		fft1.transform();
-		ImageFFT fft2 = new ImageFFT(chunk2);
-		fft2.transform();
-		double[] vector1 = new double[64];
-		double[] vector2 = new double[64];
-		int m = 0;
-		for (int row = 0; row< chunk1.getHeight(); row++){
-			for (int col = 0; col< chunk1.getWidth(); col++){
-				vector1[m] = fft1.getMagnitude(row,col);
-				vector2[m] = fft2.getMagnitude(row, col);
-				m++;
-			}
-		}
+	public double calculateCosineAngles(double[] vector1, double[] vector2) throws FFTException{
+		
 		double innerProduct = 0;
 		for (int j=0; j<vector1.length;j++){
 			innerProduct += (vector1[j]*vector2[j]);
@@ -96,8 +92,7 @@ public class DivideIntoBlocks extends JFrame{
 		double mathMagnitude2 = Math.sqrt(total2);
 		//find the cosine angle
 		double cosineAngle = innerProduct/(mathMagnitude1*mathMagnitude2);
-		return cosineAngle;
-		
+		return cosineAngle;		
 	}
 
 	/**
@@ -109,13 +104,15 @@ public class DivideIntoBlocks extends JFrame{
 	 * @return
 	 * @throws FFTException
 	 */
-	public static double aveCosAngle(BufferedImage[][] imgs1, BufferedImage[][] imgs2) throws FFTException{
+	public double aveCosAngle(BufferedImage[][] imgs1, BufferedImage[][] imgs2) throws FFTException{
 		double[] cosAngles = new double[imgs1.length*imgs1[0].length];
 		int n = 0;
 		double total = 0;
 		for (int row = 0; row< imgs1.length; row++){
 			for (int col = 0; col< imgs1[0].length; col++){
-				cosAngles[n] = VectorConversion(imgs1[row][col], imgs2[row][col]);
+				double[] vector1 = vectorConversion(imgs1[row][col],  64);
+				double[] vector2 = vectorConversion(imgs2[row][col], 64);
+				cosAngles[n] = calculateCosineAngles(vector1, vector2);
 				total += cosAngles[n];
 				n++;
 			}
