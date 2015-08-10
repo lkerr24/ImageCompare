@@ -50,6 +50,14 @@ public class DivideIntoBlocks extends JFrame{
 	        //System.out.println("Splitting done"); 
 	        return imgs;
 	    }
+	/**
+	 * How to test?
+	 * Takes in a BufferedImage chunk and creates an array of Magnitudes for each pixel
+	 * @param chunk
+	 * @param size
+	 * @return
+	 * @throws FFTException
+	 */
 	public double[] vectorConversion(BufferedImage chunk, int size) throws FFTException{
 		ImageFFT fft = new ImageFFT(chunk);
 		fft.transform();

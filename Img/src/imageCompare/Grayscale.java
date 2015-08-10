@@ -53,7 +53,7 @@ public class Grayscale extends JFrame {
 				int green = (int) (c.getGreen() * GREEN_VALUE );
 				int blue = (int) (c.getBlue() * BLUE_VALUE);
 				int[] colours = {red, green, blue};
-				imageWritableRaster.setPixel(j,i,colours);;
+				imageWritableRaster.setPixel(j,i,colours);
 			}
 		}
 		//write out image to file if needed
@@ -82,7 +82,11 @@ public class Grayscale extends JFrame {
 		}
 		return greyPixels;
 	}
-	
+	/**
+	 * 
+	 * @param greyPixels
+	 * @return
+	 */
 	public BufferedImage createImage(int[][] greyPixels){
 		int imageWidth = greyPixels.length;
 		int imageHeight = greyPixels[0].length;
@@ -98,5 +102,4 @@ public class Grayscale extends JFrame {
 		}
 		return imageBlur;
 	}
-
 }
