@@ -30,45 +30,51 @@ public class GrayscaleTest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
-		
-		
+	public void setUp() throws Exception {		
 	}
-
+	/**
+	 * not right
+	 * @throws IOException
+	 * @throws ImageDecoderException
+	 */
 	@Test
 	public void makeGreyTest() throws IOException, ImageDecoderException {
 		BufferedImage greyTest = gs.makeGrey("IMG_0062.jpg");
-		int[][] greyLevelsActual = gs.getGreyLevels(greyTest);
-		int[][] greyLevelsExpected;
-		WritableRaster raster = greyTest.getRaster();
 		// for each pixel, if it is not a grey value, the test fails
-		int count=0;
 		for (int i = 0; i < greyTest.getWidth(); i++){
 			for(int j = 0; j < greyTest.getHeight(); j++){
-				if (greyLevels[i][j]>=0 && greyLevels[i][j]<=255){
-					count++;
+				Color c = new Color(greyTest.getRGB(i,j));
+				int red = c.getRed();
+				int green = c.getGreen();
+				int blue = c.getBlue();
+				int grey = (red+green+blue)/3;
+				if (grey <=0 || grey >= 255){
+					fail("Not all pixels greyscale");
 				}
 			}
 		}
-		if (count!=(greyLevels.length*greyLevels[0].length)){
-			fail("Not all pixels greyscale");
-		}
 	}
+	/**
+	 * not right
+	 * @throws IOException
+	 * @throws ImageDecoderException
+	 */
 	@Test
 	public void makeGreyTestInvalidImage() throws IOException, ImageDecoderException {
 		ImageDecoder input = ImageFile.createImageDecoder("IMG_0062.jpg");
 		BufferedImage greyTest = input.decodeAsBufferedImage();
-		int[][] greyLevels = gs.getGreyLevels(greyTest);
-		int count=0;
 		for (int i = 0; i < greyTest.getWidth(); i++){
 			for(int j = 0; j < greyTest.getHeight(); j++){
-				if (greyLevels[i][j]>=0 && greyLevels[i][j]<=255){
-					count++;
+				Color c = new Color(greyTest.getRGB(i,j));
+				int red = c.getRed();
+				int green = c.getGreen();
+				int blue = c.getBlue();
+				int grey = (red+green+blue)/3;
+				System.out.println(grey);
+				if (grey <=0 || grey >= 255){
+					fail("Not all pixels greyscale");
 				}
 			}
-		}
-		if (count!=(greyLevels.length*greyLevels[0].length)){
-			fail("Not all pixels greyscale");
 		}
 	}
 	@Test
