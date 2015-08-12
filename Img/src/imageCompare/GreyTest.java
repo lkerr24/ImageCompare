@@ -26,14 +26,14 @@ public class GreyTest extends JFrame{
 		Convolve cv = new Convolve();
 		DivideIntoBlocks dib = new DivideIntoBlocks();
 	
-		String filename1 = "IMG_0062.jpg";
+		String filename1 = "lena512x512.jpg";
 		BufferedImage greyImage1 = gs.makeGrey(filename1);
 		int[][] greyPixels1 = gs.getGreyLevels(greyImage1);
 		int[][] blurPixels1 = cv.convolve(greyPixels1, 1.0f);
 		BufferedImage blurImage1 = gs.createImage(blurPixels1);
 		BufferedImage[][] imgs1 = dib.divide(blurImage1,8,8);
 		
-		String filename2 = "IMG_0062.jpg";
+		String filename2 = "lena512x512.jpg";
 		BufferedImage greyImage2 = gs.makeGrey(filename2);
 		int[][] greyPixels2 = gs.getGreyLevels(greyImage2);
 		int[][] blurPixels2 = cv.convolve(greyPixels2, 2.0f);
@@ -41,7 +41,7 @@ public class GreyTest extends JFrame{
 		BufferedImage[][] imgs2 = dib.divide(blurImage2,8,8);
 		
 		double aveCosineAngle = dib.aveCosAngle(imgs1, imgs2);
-		System.out.println(aveCosineAngle);
+		System.out.printf("%.10f",aveCosineAngle);
 		
 		int[][] blurDiff = cv.compare(blurPixels1, blurPixels2);
 		BufferedImage difference = gs.createImage(blurDiff);

@@ -11,6 +11,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +29,6 @@ import com.pearsoneduc.ip.io.ImageFile;
 public class GrayscaleTest {
 	
 	Grayscale gs = new Grayscale();
-
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -33,13 +36,14 @@ public class GrayscaleTest {
 	public void setUp() throws Exception {		
 	}
 	/**
-	 * not right
+	 * Checks that every pixel in the image is grayscale
 	 * @throws IOException
 	 * @throws ImageDecoderException
 	 */
 	@Test
 	public void makeGreyTest() throws IOException, ImageDecoderException {
 		BufferedImage greyTest = gs.makeGrey("IMG_0062.jpg");
+		assertNotNull(greyTest);
 		// for each pixel, if it is not a grey value, the test fails
 		for (int i = 0; i < greyTest.getWidth(); i++){
 			for(int j = 0; j < greyTest.getHeight(); j++){
@@ -48,14 +52,14 @@ public class GrayscaleTest {
 				int green = c.getGreen();
 				int blue = c.getBlue();
 				int grey = (red+green+blue)/3;
-				if (grey <=0 || grey >= 255){
+				if (red!=grey || green!= grey || blue!=grey){
 					fail("Not all pixels greyscale");
 				}
 			}
 		}
 	}
 	/**
-	 * not right
+	 * Change this to a getGreyLevels test
 	 * @throws IOException
 	 * @throws ImageDecoderException
 	 */
@@ -70,8 +74,8 @@ public class GrayscaleTest {
 				int green = c.getGreen();
 				int blue = c.getBlue();
 				int grey = (red+green+blue)/3;
-				System.out.println(grey);
-				if (grey <=0 || grey >= 255){
+				//System.out.println(grey);
+				if (red!=grey || green!= grey || blue!=grey){
 					fail("Not all pixels greyscale");
 				}
 			}
@@ -114,9 +118,9 @@ public class GrayscaleTest {
 		int[][] actual = gs.getGreyLevels(image);
 		for (int i = 0; i < image.getWidth(); i++) {
 			for (int j = 0; j < image.getHeight(); j++) {
-				System.out.printf("%d\t", actual[i][j]);
+				//System.out.printf("%d\t", actual[i][j]);
 			}
-			System.out.println();
+			//System.out.println();
 		}
 		int[][] expected = new int[image.getWidth()][image.getHeight()];
 		for (int i = 0; i < image.getWidth(); i++) {
@@ -127,8 +131,11 @@ public class GrayscaleTest {
 		assertArrayEquals(actual, expected);
 	}
 	@Test
-	public void createImageTest() {
-		fail("Not yet implemented");
+	public void createImageTest() throws IOException, ImageDecoderException {
+		ImageDecoder input = ImageFile.createImageDecoder("lena.jpg");
+		BufferedImage image = input.decodeAsBufferedImage();
+		int[][] greyPixels = gs.getGreyLevels(image);
+		BufferedImage image2 = gs.createImage(greyPixels);
+		assertNotNull(image2);
 	}
-
 }
