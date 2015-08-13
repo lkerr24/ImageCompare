@@ -66,7 +66,7 @@ public class Convolve {
 			for (int j = 0; j<greyPixels1[0].length; j++){
 				//2 - 1 or 1 -2?
 				//gaussian wiki
-				difference[i][j] = greyPixels2[i][j] - greyPixels1[i][j];
+				difference[i][j] = greyPixels1[i][j] - greyPixels2[i][j];
 				// trace statement
 				//System.out.printf("%d\t", difference[i][j]);
 			}

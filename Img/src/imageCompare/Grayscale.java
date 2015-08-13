@@ -18,15 +18,15 @@ public class Grayscale extends JFrame {
 	/**
 	 * Constant used for obtaining the strength of grey from the red level
 	 */
-	public static final double RED_VALUE = 0.299;
+	//public static final double RED_VALUE = 0.299;
 	/**
 	 * Constant used for obtaining the strength of grey from the green level
 	 */
-	public static final double GREEN_VALUE = 0.587;
+	//public static final double GREEN_VALUE = 0.587;
 	/**
 	 * Constant used for obtaining the strength of grey from the blue level
 	 */
-	public static final double BLUE_VALUE = 0.114;
+	//public static final double BLUE_VALUE = 0.114;
 	
 	/**
 	 * This method takes in a bufferedimage and creates a new greyscale bufferedImage from it
@@ -46,14 +46,15 @@ public class Grayscale extends JFrame {
 		// create a grayscale BufferedImage "shell" to input values for image
 		BufferedImage imageGrey = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 		WritableRaster imageWritableRaster = imageGrey.getRaster();
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
-				Color c = new Color(image.getRGB(j, i));
-				int red = (int) (c.getRed() * RED_VALUE);
-				int green = (int) (c.getGreen() * GREEN_VALUE );
-				int blue = (int) (c.getBlue() * BLUE_VALUE);
-				int[] colours = {red, green, blue};
-				imageWritableRaster.setPixel(j,i,colours);
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				Color c = new Color(image.getRGB(i, j));
+				int red = c.getRed();
+				int green = c.getGreen();
+				int blue = c.getBlue();
+				int grey = (red+green+blue)/3;
+				int[] colours = {grey, grey, grey};
+				imageWritableRaster.setPixel(i,j,colours);
 			}
 		}
 		//write out image to file if needed
@@ -61,7 +62,7 @@ public class Grayscale extends JFrame {
 		//ImageIO.write(image, "jpg", output);
 		return imageGrey;
 	}
-	public int[][] getGreyLevels(BufferedImage image) {
+	public int[][] calculateGreyLevels(BufferedImage image) {
 		// create a 2d array of grey levels - each pixel
 		int imageWidth = image.getWidth();
 		int imageHeight = image.getHeight();
