@@ -73,19 +73,19 @@ public class Grayscale extends JFrame {
 	}
 	/**
 	 * 
-	 * @param greyPixels
+	 * @param blurPixels1
 	 * @return
 	 */
-	public BufferedImage createImage(int[][] greyPixels){
-		int imageWidth = greyPixels.length;
-		int imageHeight = greyPixels[0].length;
+	public BufferedImage createImage(int[][] blurPixels1){
+		int imageWidth = blurPixels1.length;
+		int imageHeight = blurPixels1[0].length;
 		BufferedImage image = new BufferedImage(imageWidth, imageHeight,
 				BufferedImage.TYPE_BYTE_GRAY);
 		WritableRaster imageWritableRaster = image.getRaster();
 		for (int x = 0; x < imageWidth; x++) {
 			for (int y = 0; y < imageHeight; y++) {
-				int[] colors = { greyPixels[x][y], greyPixels[x][y],
-						greyPixels[x][y] };
+				int[] colors = { blurPixels1[x][y], blurPixels1[x][y],
+						blurPixels1[x][y] };
 				imageWritableRaster.setPixel(x, y, colors);
 			}
 		}

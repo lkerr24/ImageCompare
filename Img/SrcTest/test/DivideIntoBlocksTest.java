@@ -96,4 +96,30 @@ public class DivideIntoBlocksTest {
 		
 		assertEquals(actual, expected, 0.5);
 	}
+	/*
+	//DISPLAY THE IMAGES IN A 2D ARRAY
+	int rows = imgs1.length;
+	int cols = imgs1[0].length;
+	JLabel[][] imgsLabel = new JLabel[rows][cols];
+	JFrame frameForMinis = new JFrame();
+	frameForMinis.setLayout(new GridLayout(rows, cols));
+	ImageIcon[][] imgsIcons = new ImageIcon[rows][cols];
+	for (int i = 0; i< rows; i++){
+		for (int j = 0; j< cols; j++){
+			imgsIcons[i][j] = new ImageIcon(imgs1[i][j]);
+		}
+	}
+	for (int k = 0; k< rows; k++){
+		for (int l = 0; l< cols; l++){
+			imgsLabel[k][l] = new JLabel(imgsIcons[k][l]);
+		}
+	}
+	for (int m = 0; m< rows; m++){
+		for (int n = 0; n< cols; n++){
+			frameForMinis.add(imgsLabel[m][n]);
+		}
+	}
+	frameForMinis.pack();
+	frameForMinis.setVisible(true);
+	*/
 }

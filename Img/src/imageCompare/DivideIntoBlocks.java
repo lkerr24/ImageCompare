@@ -113,11 +113,20 @@ public class DivideIntoBlocks extends JFrame{
 	 * @throws FFTException
 	 */
 	public double aveCosAngle(BufferedImage[][] imgs1, BufferedImage[][] imgs2) throws FFTException{
-		double[] cosAngles = new double[imgs1.length*imgs1[0].length];
+		int width = 0;
+		int height = 0;
+		if (imgs1.length*imgs1[0].length > imgs2.length*imgs2[0].length){
+			width = imgs2.length;
+			height = imgs2[0].length;
+		} else {
+			width = imgs1.length;
+			height = imgs1[0].length;
+		}
+		double[] cosAngles = new double[width*height];
 		int n = 0;
 		double total = 0;
-		for (int row = 0; row< imgs1.length; row++){
-			for (int col = 0; col< imgs1[0].length; col++){
+		for (int row = 0; row< width; row++){
+			for (int col = 0; col< height; col++){
 				double[] vector1 = vectorConversion(imgs1[row][col],  64);
 				double[] vector2 = vectorConversion(imgs2[row][col], 64);
 				cosAngles[n] = calculateCosineAngles(vector1, vector2);

@@ -11,32 +11,31 @@ public class Convolve {
 		
 		int imageWidth = greyPixels.length;
 		int imageHeight = greyPixels[0].length;
-		GaussianKernel gKernel = new GaussianKernel(sigma);
-		// trace statement
-		// gKernel.write(new OutputStreamWriter(System.out));
-		float[] kernelCoeff = gKernel.getKernelData(null);
-		// trace statement
-		// for (int i = 0; i<kernelCoeff.length;i++){
-		// System.out.printf("\n%.4f",kernelCoeff[i]);
-		// }
-		int kernelWidth = gKernel.getWidth();
-		int kernelHeight = gKernel.getHeight();
-		float[][] kernel2d = new float[kernelWidth][kernelHeight];
+
+		float[] kernelCoeff = GaussianKernel.createKernelData(sigma);
+		//float[] kernelCoeff = {1/9,1/9,1/9, 1/9,1/9,1/9, 1/9,1/9,1/9};
+		int length = kernelCoeff.length;
+		int width = (int) Math.sqrt(length);
+		int height = width;
+		float[][] kernel2d = new float[width][height];
 		int p = 0;
-		for (int i = 0; i < kernelWidth; i++) {
-			for (int j = 0; j < kernelHeight; j++) {
+		float total = 0;
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				kernel2d[i][j] = kernelCoeff[p];
 				p++;
+				total+=kernel2d[i][j];
 				// trace statement
 				// System.out.printf("\t%.4f",kernel2d[i][j]);
 			}
 			// trace statement
 			// System.out.println();
 		}
-		int m2 = kernelWidth / 2;
+		System.out.printf("\n%.10f",total);
+		int m2 = width / 2;
 		// trace statement
 		//System.out.println(m2);
-		int n2 = kernelHeight / 2;
+		int n2 = height / 2;
 		// trace statement
 		//System.out.println(n2);
 		float sum = 0;
@@ -44,11 +43,10 @@ public class Convolve {
 			for (int y = n2; y < (imageHeight - n2 - 1); y++) {
 				for (int k = -m2; k <= m2; k++) {
 					for (int j = -n2; j <= n2; j++) {
-						sum += kernel2d[j + n2][k + m2]
-								* greyPixels[x - j][y - k];
+						sum += kernel2d[j + n2][k + m2]* greyPixels[x - j][y - k];
 					}
 				}
-				greyPixels[x][y] = (int) sum;
+				greyPixels[x][y] = (int)sum;
 				// trace statement
 				// System.out.printf("\t%d",greyPixels[x][y]);
 				sum = 0;
@@ -58,15 +56,13 @@ public class Convolve {
 		}
 		return greyPixels;
 	}
-	public int[][] compare(int[][] greyPixels1, int[][] greyPixels2){
+	public int[][] compare(int[][] blurPixels1, int[][] blurPixels2){
 		
-		int [][] difference = new int[greyPixels1.length][greyPixels1[0].length];
+		int[][] difference = new int[blurPixels1.length][blurPixels1[0].length];
 		
-		for (int i = 0; i<greyPixels1.length; i++){
-			for (int j = 0; j<greyPixels1[0].length; j++){
-				//2 - 1 or 1 -2?
-				//gaussian wiki
-				difference[i][j] = greyPixels1[i][j] - greyPixels2[i][j];
+		for (int i = 0; i<blurPixels1.length; i++){
+			for (int j = 0; j<blurPixels1[0].length; j++){
+				difference[i][j] = blurPixels1[i][j] - blurPixels2[i][j];
 				// trace statement
 				//System.out.printf("%d\t", difference[i][j]);
 			}

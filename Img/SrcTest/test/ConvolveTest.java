@@ -61,5 +61,38 @@ public class ConvolveTest {
 		assertArrayEquals(actual, expected);
 		
 	}
+	
+	/* TESTING CONVOLVE METHOD COMPARING WITH EFFORD'S GAUSSIAN BLUR METHOD
+	GaussianKernel gKernel = new GaussianKernel(1.0f);
+	ConvolutionOp co = new ConvolutionOp(gKernel);
+	
+	BufferedImage image = gs.makeGrey("lenaColour.jpg");
+	int[][] greyPixels = gs.calculateGreyLevels(image);
+	int[][] actualPixels = cv.convolve(greyPixels, 1.0f);
+	BufferedImage actual = gs.createImage(actualPixels);
+	//BufferedImage expected = ConvolutionOp.gaussianBlur(image, 1.0f, 1);
+	float[] expected2 = co.convolve(image);
+	int[][] expectedImage2 = new int[greyPixels.length][greyPixels[0].length];
+	int n = 0;
+	for (int i = 0; i<greyPixels.length;i++){
+		for (int j = 0; j<greyPixels.length;j++){
+			expectedImage2[i][j] = (int)expected2[n];
+			n++;
+		}
+	}
+	BufferedImage OK = gs.createImage(expectedImage2);
+	
+	JFrame frameForActual= new JFrame();
+	JLabel view4 = new JLabel(new ImageIcon(actual));
+	frameForActual.add(view1);
+	frameForActual.pack();
+	frameForActual.setVisible(true);
+	
+	JFrame frameForExpected = new JFrame();
+	JLabel view5 = new JLabel(new ImageIcon(OK));
+	frameForExpected.add(view2);
+	frameForExpected.pack();
+	frameForExpected.setVisible(true);
+	*/
 
 }
