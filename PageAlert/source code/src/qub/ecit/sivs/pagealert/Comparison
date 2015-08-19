@@ -42,8 +42,10 @@ public class CompareImage{
  	 * @throws IOException
  	 * @throws ImageDecoderException
  	 */
-	public BufferedImage[][] divide(BufferedImage greyImage, int widthPixels, int heightPixels) throws IOException,
+	public BufferedImage[][] divide(File imagePath, int widthPixels, int heightPixels) throws IOException,
 	ImageDecoderException{
+		GrayScale gs = new GrayScale();
+		BufferedImage greyImage = gs.makeGrey(imagePath);
 		 Raster rasterImage = greyImage.getData();
 		 int width = rasterImage.getWidth();
 		 int height = rasterImage.getHeight();

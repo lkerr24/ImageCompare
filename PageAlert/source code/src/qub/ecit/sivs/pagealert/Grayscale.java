@@ -5,7 +5,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
 import com.pearsoneduc.ip.io.ImageDecoder;
 import com.pearsoneduc.ip.io.ImageDecoderException;
 import com.pearsoneduc.ip.io.ImageFile;
@@ -23,9 +25,10 @@ public class Grayscale extends JFrame {
 	 * @throws ImageDecoderException 
 	 * @throws IOException 
 	 */
-	public BufferedImage makeGrey(String filename) throws IOException, ImageDecoderException {
-		ImageDecoder input = ImageFile.createImageDecoder(filename);
-		BufferedImage image = input.decodeAsBufferedImage();
+	public BufferedImage makeGrey(File filename) throws IOException, ImageDecoderException {
+		//ImageDecoder input = ImageFile.createImageDecoder(filename);
+		
+		BufferedImage image = ImageIO.read(filename);
 		// checking width and height of image
 		int width = image.getWidth();
 		int height = image.getHeight();
